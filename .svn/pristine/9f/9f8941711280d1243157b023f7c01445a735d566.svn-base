@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="donghwa.mapper.ScheduleMapper">
+
+	<insert id="insertSchedule">
+	INSERT INTO schedule(    UNQ
+							,SCHDT
+							,TITLE
+							,CONT
+							,USERID
+							,REGDT
+							 ) 
+				VALUES(  sch_seq.nextval
+						,'${schdt}'
+						,'${title}'
+						,'${cont}'
+						,'${userid}'
+						,sysdate  )
+	</insert>
+	
+	<select id="selectScheduleListSchdt" resultType="hashmap">
+	
+	    select dd,count(dd) cnt from (
+			select to_char(schdt,'dd') dd  from schedule
+			  where userid=#{userid} 
+			    and to_char(schdt,'yyyy-mm') = #{schdt}) a
+		group by dd
+	
+	</select>
+	
+	<select id="selectScheduleListEntry" resultType="hashmap">
+	
+		SELECT UNQ,SCHDT,TITLE,CONT FROM SCHEDULE
+			WHERE
+		  		TO_CHAR(SCHDT,'YYYY-MM-DD') = #{vdate}
+	
+	</select>
+	
+	<select id="selectScheduleSchdtCnt" resultType="int">
+		select 	count(*) from schedule
+		 where
+				userid='${userid}'
+		  and 
+				to_char(schdt,'yyyy-mm-dd hh24:mi:ss')='${schdt}'
+	</select>	
+	
+	<delete id="deleteSchedule">
+		DELETE FROM schedule WHERE UNQ=#{unq}
+	</delete>
+	
+	<update id="updateSchedule">
+				UPDATE  schedule 
+				  SET 
+						 TITLE=#{title}
+						,CONT=#{cont}
+				WHERE	
+						UNQ=#{unq}
+	</update>
+	
+	
+
+</mapper>
+
+
+
+
+
+
