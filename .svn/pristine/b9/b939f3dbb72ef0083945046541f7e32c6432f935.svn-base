@@ -1,0 +1,11 @@
+package donghwa.service;
+
+public interface AdminfoService {
+   /**
+	 * 관리자정보 등록처리 */
+	int insertAdminfo(AdminfoVO vo) throws Exception;
+	
+	/**
+	 * 아이디 중복 체크 */
+	int selectAdminfoUserid(AdminfoVO vo) throws Exception;
+}
